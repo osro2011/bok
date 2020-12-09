@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+        function SingleLinkedList() {
+            function Element(data, next) {
+                this.data = data;
+                this.next = next;
+            }
+
+            this.first = null;
+
+            this.add = function(data) {
+                if (this.first == null) { 
+                    this.first = new Element(data, null); 
+                } else {
+                    var temp = this.first;
+                    while (temp.next != null) { 
+                        temp = temp.next; 
+                    }
+
+                    temp.next = new Element(data, null);
+                }
+            }
+
+            this.print = function()
+            {
+                var temp = this.first;
+                var result = "Listan innehåller:";
+                while (temp != null) {
+                    result += " " + temp.data;
+                    temp = temp.next;
+                }
+                alert(result);
+            }
+
+            this.remove = function(data)
+            {
+                var temp = this.first;
+                var previous = null;
+                while (temp != null)
+                {
+                    if (temp.data == data) 
+                    {
+                        if (previous == null) 
+                        {
+                            this.first = temp.next;
+                        } 
+                        else
+                        {
+                            previous.next = temp.next;
+                        }
+                        break;
+                    }
+                    previous = temp;
+                    temp = temp.next;
+                }
+            }
+        }
+        </script>
+    </body>
+</html>

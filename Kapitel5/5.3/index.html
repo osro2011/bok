@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+            class Spider {
+                constructor(XSpeed, YSpeed) {
+                    this.x = totalWidth/2
+                    this.y = totalHeight/2
+                    this.image = {
+                        url: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngimg.com%2Fuploads%2Fspider%2Fspider_PNG6.png&f=1&nofb=1",
+                        width: 2327 * 0.1,
+                        height: 2006 * 0.1
+                    };
+                    this.xSpeed = XSpeed;
+                    this.ySpeed = YSpeed;
+                }
+
+                draw() {
+                    picture(this.x - this.image.width/2, this.y - this.image.height/2, this.image.url, this.image.width, this.image.height)
+                }
+
+                update() {
+                    this.x += this.xSpeed;
+                    this.y += this.ySpeed;
+                    this.draw();
+                }
+            }
+
+            var spiders = [];
+
+            for (var i = 0; i < 42; i++) {
+                spiders[i] = new Spider(((Math.random() > 0.5) ? Math.random() + 1 : (Math.random() + 1) * -1), ((Math.random() > 0.5) ? Math.random() + 1 : (Math.random() + 1) * -1));
+            }
+
+            function update() {
+                clearScreen();
+                for (var i = 0; i < spiders.length; i++){
+                    spiders[i].update();
+                }
+            }
+        </script>
+    </body>
+</html>

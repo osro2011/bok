@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+        
+        function BinaryTree()
+        {
+            function Node(data)
+            {
+                this.left = null;
+                this.data = data;
+                this.right = null;
+            }
+
+            this.root = null;
+
+            this.add = function(data) 
+            {
+                if (this.root == null) 
+                {
+                    this.root = new Node(data);
+                } else {
+                    var temp = this.root;
+                    while (true) {
+                        if (data >= temp.data) {
+                            // Gå höger
+                            if (temp.right != null) {
+                                temp = temp.right;
+                            } else {
+                                temp.right = new Node(data)
+                                break;
+                            }
+                        } else {
+                            // Gå vänster
+                            if (temp.left != null) {
+                                temp = temp.left;
+                            } else {
+                                temp.left = new Node(data);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        list = new BinaryTree();
+        
+        </script>
+    </body>
+</html>

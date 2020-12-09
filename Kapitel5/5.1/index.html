@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+            class Spider {
+                constructor() {
+                    this.x = totalWidth/2
+                    this.y = totalHeight/2
+                    this.image = {
+                        url: "https://cdn.discordapp.com/attachments/299085128624242688/781129328724934676/spindel.png",
+                        width: 300,
+                        height: 220
+                    };
+
+                    this.draw();
+                }
+
+                draw() {
+                    picture(this.x - this.image.width/2, this.y - this.image.height/2, this.image.url, this.image.width, this.image.height)
+                }
+            }
+
+            var bungo = new Spider();
+        </script>
+    </body>
+</html>
