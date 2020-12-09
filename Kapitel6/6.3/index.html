@@ -13,39 +13,79 @@
         {
             function Node(data)
             {
-                this.left = null;
                 this.data = data;
+                this.left = null;
                 this.right = null;
+                this.parent = null;
             }
 
             this.root = null;
 
             this.add = function(data) 
             {
-                if (this.root == null) 
+                newNode = new Node(data)
+                if (this.root === null) 
                 {
-                    this.root = new Node(data);
-                } else {
-                    var temp = this.root;
-                    while (true) {
-                        if (data >= temp.data) {
-                            // Gå höger
-                            if (temp.right != null) {
-                                temp = temp.right;
-                            } else {
-                                temp.right = new Node(data)
-                                break;
-                            }
-                        } else {
-                            // Gå vänster
-                            if (temp.left != null) {
-                                temp = temp.left;
-                            } else {
-                                temp.left = new Node(data);
-                                break;
-                            }
-                        }
+                    this.root = newNode;
+                } 
+                else 
+                {
+                    this.addNode(root, newNode);
+                }
+            }
+
+            this.addNode = function(node, newNode)
+            {
+                if (newNode.data < node.data)
+                {
+                    if (node.left === null) 
+                    {
+                        newNode.parent = node;
+                        node.left = newNode;
+                    } 
+                    else 
+                    {
+                        this.addNode(node.left, newNode)
                     }
+                } 
+                else 
+                {
+                    if (node.right === null) 
+                    {
+                        newNode.parent = node;
+                        node.right = newNode;
+                    } 
+                    else 
+                    {
+                        this.addNode(node.right, newNode)
+                    }
+                }
+            }
+
+            this.remove = function(data)
+            {
+                this.root = this.removeNode(this.root, data);
+            }
+
+            this.removeNode = function(node, data)
+            {
+                if (node === null) 
+                {
+                    return null;
+                }
+                else if (data < node.data)
+                {
+                    node.left = this.removeNode(node.left, data);
+                    return node;
+                }
+                else if (data > node.data)
+                {
+                    node.right = this.removeNode(node.right, data);
+                    return node;
+                }
+                else
+                {
+                    //remove node and do shit
                 }
             }
         }
