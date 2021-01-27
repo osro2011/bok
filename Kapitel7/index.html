@@ -11,15 +11,15 @@
             turtle.x = totalWidth * 0.3;
             turtle.y = totalHeight * 0.7;
             var settings = {
-                'length': 40,
+                'length': 1,
                 'angle': 60,
-                'iterations': 3
+                'iterations': 6
             }
 
-            var axiom = 'F';
+            var axiom = 'F++F++F';
 
             var rules = {
-                'F': 'F+F--F+F',
+                'F': 'F-F++F-F',
                 '+': '+',
                 '-': '-'
             };
