@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+            var angle = 90;
+            var length = 5;
+
+            function update() {
+                turtle.moveWithPen(length);
+                turtle.turnLeft(angle);
+                length += 2;
+                angle += 0.005;
+            }
+        </script>
+    </body>
+</html>
