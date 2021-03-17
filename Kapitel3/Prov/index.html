@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+        // A class to define and draw the stick figure. This is accomplished through one origin 
+        // point from which everything else is drawn using math. I may have been able to do this
+        // through using translate/rotate/scale instead as this may have made the code easier
+        // to write/read. I had however written the code for the arms and legs previously so I adapted 
+        // that into a class instead which can draw a stick figure with movable arms and legs. This
+        // remains an unused feature however as I am out of time and it is outside of the scope of this 
+        // assignment.
+        function Stickman(x, y, shoeColor = "black", color = "black", size = 50, lArmAngle = 45, rArmAngle = 45, lLegAngle = 45, rLegAngle = 45, thick = 3) {
+            
+            // Properties in ordet to keep track of the stick figure.
+            this.x = x;
+            this.y = y;
+            this.size = size;
+            this.lArmAngle = lArmAngle;
+            this.rArmAngle = rArmAngle;
+            this.lLegAngle = lLegAngle;
+            this.rLegAngle = rLegAngle;
+            this.thick = thick;
+            this.color = color;
+            this.shoeColor = shoeColor;
+            this.defaults = {
+                x: x,
+                y: y,
+                color: color,
+                size: size,
+                angle: lArmAngle,
+                thick: thick
+            }
+
+            // The function that actually draws the stick figure. This is done through calculating where 
+            // everything should be drawn through lengths and trigonometry. It also serves as the function
+            // that undraws the stick figure.
+            this.drawStickman = (color = this.color, shoeColor = this.shoeColor, eraser = 0) => {
+                ring(this.x, this.y, this.size, this.thick, color); //Head
+                line(this.x, this.y + this.size, this.x, this.y + 5 * this.size, this.thick, color); //Torso
+                line(this.x, this.y + 2 * this.size, this.x - Math.sin(this.degToRad(this.lArmAngle)) * 2 * this.size, this.y + 2 * this.size + Math.cos(this.degToRad(this.lArmAngle)) * 2 * this.size, this.thick, color); //L arm
+                line(this.x, this.y + 2 * this.size, this.x + Math.sin(this.degToRad(this.rArmAngle)) * 2 * this.size, this.y + 2 * this.size + Math.cos(this.degToRad(this.rArmAngle)) * 2 * this.size, this.thick, color); //R arm
+                line(this.x, this.y + 5 * this.size, this.x - Math.sin(this.degToRad(this.lLegAngle)) * 2 * this.size, this.y + 5 * this.size + Math.cos(this.degToRad(this.lLegAngle)) * 2 * this.size, this.thick, color); //L leg
+                line(this.x, this.y + 5 * this.size, this.x + Math.sin(this.degToRad(this.rLegAngle)) * 2 * this.size, this.y + 5 * this.size + Math.cos(this.degToRad(this.rLegAngle)) * 2 * this.size, this.thick, color); //R leg
+                rectangle((this.x + Math.sin(this.degToRad(this.rLegAngle)) * 1.5 * this.size) - eraser, (this.y + 5 * this.size + Math.cos(this.degToRad(this.rLegAngle)) * 1.9 * this.size) - eraser, (this.size * 0.5) + eraser * 2, (this.size * 0.2) + eraser * 2, shoeColor);
+                rectangle((this.x - Math.sin(this.degToRad(this.lLegAngle)) * 1.5 * this.size) + eraser, (this.y + 5 * this.size + Math.cos(this.degToRad(this.lLegAngle)) * 1.9 * this.size) - eraser, (this.size * -0.5) + eraser * -2, (this.size * 0.2) + eraser * 2, shoeColor);
+            };
+
+            // A simple function to convert degress to radians as JavaScript uses radians and I don't.
+            this.degToRad = (degrees) => {
+                return degrees * (Math.PI / 180);
+            };
+
+            // A function to update features of the stick figure such as position, color, arm/leg positions
+            // among some other things. It also calls the drawStickman function with the background color in
+            // order to draw a fully white stick figure over the old stickman so that a new one can be drawn elsewhere
+            // so that it can be moved. There is however a slight glitch where the white stick figure does not cover the
+            // old one entirely. Measures have been taken to fix this bug but it was not fixed entirely as I did
+            // not have the time.
+            this.update = (bgcolor, x = 0, y = 0, shoeColor = this.shoeColor, color = this.color, size = this.size, lArmAngle = this.lArmAngle, rArmAngle = this.rArmAngle, lLegAngle = this.lLegAngle, rLegAngle = this.rLegAngle, thick = this.thick) => {
+                this.thick += 4;
+                this.drawStickman(bgcolor, bgcolor, 1);
+                this.x += x;
+                this.y += y;
+                this.size = size;
+                this.lArmAngle = lArmAngle;
+                this.rArmAngle = rArmAngle;
+                this.lLegAngle = lLegAngle;
+                this.rLegAngle = rLegAngle;
+                this.thick = thick;
+                this.color = color;
+                this.shoeColor = shoeColor;
+                this.drawStickman();
+            }
+
+            // Calls the drawStickman function at the end of the class so that construction of the class draws a stick figure.
+            this.drawStickman();
+        }
+
+        // Mandatory function as per the assignment specifications. Only really serves the purpouse of adapting the Stickman class 
+        // to the specifications of the assignment. 
+        // Creates a stick figure and returns the object. 
+        function drawMe(x, y, color) {
+            var stickman = new Stickman(x, y, color);
+            return stickman;
+        }
+
+        // Calls the drawMe function and stores the object.
+        var me = drawMe(totalWidth / 2, totalHeight / 2, "red");
+
+        // Variable for keeping track of the spacebar state.
+        spacePressed = false;
+
+        function update() {
+
+            // If statements for calling the Stickman.update function with relevant changes to the object 
+            // such that the stick figure can move when the arrow keys are pressed.
+            if (keyboard.up) { me.update("white", 0, -5) }
+            else if (keyboard.down) { me.update("white", 0, 5) }
+            if (keyboard.right) { me.update("white", 5, 0) }
+            else if (keyboard.left) { me.update("white", -5, 0) }
+
+            // If statements to keep track of the state of the space bar and also make a prompt to change the color of the shoes of
+            // the stick figure.
+            if (keyboard.space) { spacePressed = true; }
+            if (!keyboard.space && spacePressed) { 
+                let color = prompt("Input new shoe color:");
+                me.update( "white", 0, 0, color)
+                spacePressed = false; 
+            }
+        }
+
+        // All in all this program could have been written better in my opinion as it could probably have been
+        // simpler and fit the assignment specifications better. It overcomplicates things that don't need to
+        // be too complicated. I didn't realize this until it was too late however and had to keep going with
+        // this idea. Perhaps a start from scratch would be best, along with proper planning for how the program
+        // should work, but that would require more time which I do not have.
+        </script>
+    </body>
+</html>

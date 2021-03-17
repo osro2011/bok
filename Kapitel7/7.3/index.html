@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+            turtle.x = totalWidth * 0.3;
+            turtle.y = totalHeight * 0.3;
+            var settings = {
+                'length': 3,
+                'angle': 20,
+                'iterations': 7
+            }
+
+            var axiom = 'x';
+
+            var rules = {
+                'F': 'FF',
+                'f': 'fff',
+                'G': 'F+G+F',
+                '+': '+',
+                '-': '-',
+                '[': '[',
+                ']': ']',
+                'x': 'F+[[x]-x]-F[-Fx]+x',
+                'y': 'Fx-y',
+                'a': '-bF+aFa+Fb-',
+                'b': '+aF-bFb-Fa+'
+            };
+
+            var actions = {
+                'F': function() { turtle.moveWithPen(settings.length);      },
+                'f': function() { turtle.moveWithoutPen(settings.length);   },
+                'G': function() { turtle.moveWithPen(settings.length);      },
+                '+': function() { turtle.turnLeft(settings.angle);          },
+                '-': function() { turtle.turnRight(settings.angle);         },
+                '[': function() { turtle.pushPosition();                    },
+                ']': function() { turtle.popPosition();                     },
+                'x': function() {                                           },
+                'y': function() {                                           },
+                'a': function() {                                           },
+                'b': function() {                                           }
+            };
+
+            var system = axiom;
+
+            for (var i = 0; i < settings.iterations; i++) {
+                var newSystem = '';
+                for (action of system) {
+                    newSystem += rules[action];
+                }
+                system = newSystem;
+            }
+
+            for (action of system) {
+                actions[action]();
+            }
+        </script>
+    </body>
+</html>

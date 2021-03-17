@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+            var ball = {
+                sx: 0,
+                sy: 0,
+                sx0: totalWidth / 2,
+                sy0: totalHeight / 2,
+                vx: 500,
+                vy: 500
+            }
+
+            var world = {
+                g: -9.82,
+                tx: 0,
+                ty: 0
+            }
+
+            function update() {
+                world.tx += 0.2;
+                world.ty += 0.2;
+
+                ball.sx = ball.vx * world.tx; 
+                ball.sy = ball.vy * world.ty + (world.g * world.ty * world.ty) / 2;
+
+                var x = ball.sx + ball.sx0;
+                var y = totalHeight - (ball.sy + ball.sy0);
+                clearScreen();
+                circle(x, y, 50, "red");
+
+                if (y > totalHeight - 50) {
+                    var vy = -(ball.vy + world.g * world.ty);
+                    world.ty = 0;
+                    ball.vy = vy * 0.8;
+                    ball.sy0 = 50;
+                } else if (y < 50) {
+                    var vy = -(ball.vy + world.g * world.ty);
+                    world.ty = 0;
+                    ball.vy = vy * 0.8;
+                    ball.sy0 = totalHeight - 50;
+                } else if (x > totalWidth - 50) {
+                    var vx = -(ball.vx);
+                    world.tx = 0;
+                    ball.vx = vx * 0.8;
+                    ball.sx0 = totalWidth - 50;
+                } else if (x < 50) {
+                    var vx = -(ball.vx);
+                    world.tx = 0;
+                    ball.vx = vx * 0.8;
+                    ball.sx0 = 50;
+                }
+            }
+        </script>
+    </body>
+</html>

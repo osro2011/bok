@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="http://koda.nu/simple.js">
+            var xStart = -2.5;
+            var xEnd = 1;
+            var yStart = -1;
+            var yEnd = 1;
+
+            for (var x = 0; x < totalWidth; x++) {
+                for (var y = 0; y < totalHeight; y++) {
+                    var c_re = ((x / totalWidth) * (xEnd - xStart)) + xStart;
+                    var c_im = ((y / totalHeight) * (yEnd - yStart)) + yStart;
+                    var re_n = 0;
+                    var im_n = 0;
+                    var it = 0;
+                    while (((re_n * re_n + im_n * im_n) < 4) && (it < 200)) {
+                        var re_n_plus_one = re_n * re_n - im_n * im_n + c_re;
+                        var im_n_plus_one = 2 * re_n * im_n + c_im;
+                        re_n = re_n_plus_one;
+                        im_n = im_n_plus_one;
+                        it++
+                    }
+                    if (it == 1000) { color = "black" }
+                    else { color = mixColor(255 - it%155, 255 - it%255, 255 - it%55); }
+
+                    rectangle(x, y, 1, 1, color)
+                }
+            }
+            console.log("Done.")
+        </script>
+    </body>
+</html>
